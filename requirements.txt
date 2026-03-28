@@ -1,0 +1,7 @@
+streamlit==1.32.0
+Pillow
+google-genai
+python-docx
+fpdf
+python-pptx
+python-dotenv
