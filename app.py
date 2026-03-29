@@ -7,7 +7,7 @@ import db_engine as db
 import slide_maker as sm
 
 # --- PAGE CONFIG & INIT ---
-st.set_page_config(page_title="Nexus | EdTech Platform", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Nexus | EdTech Platform", page_icon="⚡", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
 
@@ -30,6 +30,11 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* 🚨 NEW: Hide the sidebar collapse buttons 🚨 */
+    [data-testid="stSidebarCollapseButton"] {display: none;}
+    [data-testid="collapsedControl"] {display: none;}
+    
     .stApp { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
     .stTextArea textarea { background-color: #1e293b; color: #f1f5f9; border: 1px solid #334155; border-radius: 12px; }
     .stButton>button { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
@@ -37,7 +42,7 @@ st.markdown("""
     .stTabs [data-baseweb="tab-list"] { gap: 24px; background-color: transparent; }
     .stTabs [data-baseweb="tab"] { height: 50px; background-color: transparent; color: #cbd5e1; font-size: 1.1rem; font-weight: 500; }
     .stTabs [aria-selected="true"] { color: #818cf8 !important; border-bottom-color: #818cf8 !important; }
-
+    
     /* Custom metric styling for leaderboard */
     div[data-testid="stMetricValue"] { font-size: 1.5rem; color: #818cf8; }
 </style>
