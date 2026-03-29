@@ -7,7 +7,7 @@ import db_engine as db
 import slide_maker as sm
 
 # --- PAGE CONFIG & INIT ---
-st.set_page_config(page_title="Nexus | EdTech Platform", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Nexus | EdTech Platform", page_icon="⚡", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
 
@@ -24,6 +24,9 @@ if "username" not in st.session_state:
     st.session_state.username = ""
 if "active_chat" not in st.session_state:
     st.session_state.active_chat = None
+
+if "sidebar_hidden" not in st.session_state:
+    st.session_state.sidebar_hidden = False
 
 st.markdown("""
 <style>
@@ -75,11 +78,24 @@ if not st.session_state.logged_in:
 
 # --- MAIN APPLICATION DASHBOARD ---
 else:
-    # --- SIDEBAR (PROFILE & EXTRAS) ---
-    with st.sidebar:
-        current_profile = db.get_profile(st.session_state.username)
+    # --- SIDEBAR TOGGLE ---
+    cols = st.columns([0.1, 0.8, 0.1])
+    with cols[1]:
+        if st.session_state.sidebar_hidden:
+            if st.button("▶ Open Sidebar", use_container_width=True):
+                st.session_state.sidebar_hidden = False
+                st.rerun()
+        else:
+            if st.button("◀ Close Sidebar", use_container_width=True):
+                st.session_state.sidebar_hidden = True
+                st.rerun()
 
-        prof_col1, prof_col2 = st.columns([1, 2])
+    # --- SIDEBAR (PROFILE & EXTRAS) ---
+    if not st.session_state.sidebar_hidden:
+        with st.sidebar:
+            current_profile = db.get_profile(st.session_state.username)
+
+            prof_col1, prof_col2 = st.columns([1, 2])
         with prof_col1:
             if current_profile.get("profile_pic"):
                 st.image(base64.b64decode(current_profile["profile_pic"]), use_container_width=True)
